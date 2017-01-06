@@ -36,8 +36,6 @@ def extractCases(soup, case_type):
     rows = table.findAll('tr')[1:]
     cases = [extractCaseFromRow(row, headers, case_type)
             for row in rows]
-    for c in cases:
-        print c.get("parties")
     return cases
 
 
