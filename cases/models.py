@@ -36,6 +36,8 @@ class Case(models.Model):
     Tribunal Cases.
     """
     dr_no = models.CharField(max_length=50)
+    tr_no = models.CharField(max_length=50,
+                             null=True)
     case_type=models.CharField(max_length=15,
                                choices=constants.CASE_TYPES)
     subjects_of_dispute = models.ManyToManyField(Subject)
