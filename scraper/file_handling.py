@@ -12,19 +12,19 @@ def savePage(case_type, page, year, num):
     Saves a html page to a directory in format
     {case_type}/{year}/{num}.html
     """
-    filename = "{0}.html".format(num)
-    
-    dir = getCaseDir(case_type)
-    path = dir +"/{0}/{1}.html".format(year, str(num))
-    logging.info("Saving page: {0}".format(path))
+    case_dir = getCaseDir(case_type)
+    if not os.path.exists(case_dir):
+        os.makedirs(case_dir)
 
-    if not os.path.exists(dir):
-        os.makedirs(dir)
+    year_dir = case_dir + "/{0}".format(year)
+    if not os.path.exists(year_dir):
+        os.makedirs(year_dir)
 
-    with open(path, 'w') as f:
+    file_path = year_dir + "/{0}.html".format(num)
+    with open(file_path, 'w') as f:
         f.write(page.encode('utf8'))
 
-    logging.info("Wrote file: {0}".format(path))
+    logging.info("Wrote file: {0}".format(file_path))
     return
 
 def getLatest(str_nums):
@@ -51,9 +51,12 @@ def findLastPageSaved(case_type, year):
     #TODO: Add error handling when no pages saved
     # for a given year
     case_dir = getCaseDir(case_type)
-    print case_dir
-    files = os.listdir(case_dir + "/{0}".format(year))
-    print files
+    case_dir += "/{0}".format(year)
+
+    if not os.path.exists(case_dir):
+        return 1
+
+    files = os.listdir(case_dir)
     drop_ext = lambda s: s.split('.')[0]
     # Remove the ".html" extension for file names
     files = [drop_ext(f) for f in files]
