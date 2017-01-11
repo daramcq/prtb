@@ -26,9 +26,6 @@ def savePages(year, case_type, starting_num):
     return
 
 def run():
-    # Check last stored case page
-    # Get the case page for the last
-    # Get any additional case pages
     case_types = [tp[1] for tp in case_constants.CASE_TYPES]
     for case_type in case_types:
         latest_year = file_handling.findLastYearSaved(case_type)
