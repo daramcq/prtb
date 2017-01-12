@@ -31,23 +31,27 @@ def saveCase(case_info, case_type):
     Save a case_info dict as a Case, with associated
     Subject and Party keys
     """
+    print case_info
     case = Case(case_type=case_type,
                 dr_no=case_info.get('dr_no'),
-                determination_order=case_info.get('determination_order'),
-                date=case_info.get('order_date'))
+                determination_order=case_info.get('determination_order'))
     if case_type == 'tribunal':
         case.tr_no = case_info.get('tr_no')
         case.tribunal_report = case_info.get('tribunal_report')
+        case.date=case_info.get('hearing_date')
+    else:
+        case.date= case_info.get('order_date')
     case.save()
+    print "Saved the case"
     subjects = [Subject.objects.get_or_create(name=subj)[0]
                 for subj in case_info.get('subject_of_dispute')]
-
+    print "Got the subjects"
     parties = case_info.get("parties")
     respondents = [Party.objects.get_or_create(**resp)[0]
                    for resp in parties.get("respondent")]
     applicants = [Party.objects.get_or_create(**resp)[0]
                    for resp in parties.get("applicant")]
-
+    print "And all the other shit"
     for resp in respondents:
         case.respondents.add(resp)
 
@@ -72,25 +76,21 @@ def scrapePage(case_type, path):
 def run():
     case_types = [tp[1] for tp in case_constants.CASE_TYPES]
     # For each case type
+    index = {}
     for case_type in case_types:
-        print case_type
+        index[case_type] = {}
         case_dir = constants.BASE_FILE_DIR + "/{0}".format(case_type)
-        print case_dir
         # For each year
         for year in os.listdir(case_dir):
-            print year
+            index[case_type][int(year)] = 0
             year_path = case_dir + "/{0}".format(year)
             for page in os.listdir(year_path):
                 page_path = year_path+"/{0}".format(page)
                 cases = scrapePage(case_type, page_path)
+                index[case_type][int(year)] += len(cases)
                 print "{0} | {1} - {2} | {3} cases".format(case_type, year,
                                                            page, len(cases))
+                for c in cases:
+                    saveCase(c, case_type)
 
-# if __name__ == '__main__':
-#     logging.basicConfig(level=logging.INFO)
-#     scrapePages("tribunal", 2014,2016)
-    
-#     # for year in [2014, 2015, 2015]:
-    #     cases = db.getAdjudications(limit=500, year=year)
-    #     print("{0}|{1}|{0}".format(("="*25),year))
-    #     utils.produceQuickSubjectBreakdown(cases)
+    print index

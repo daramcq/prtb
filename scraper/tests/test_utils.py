@@ -109,7 +109,19 @@ class TestUtils(TestCase):
         result = utils.splitCaseParties("adjudication", parties_str)
         self.assertEqual(expected, result)
 
+    def test_splitPartiesStringMalformedString(self):
+        """
 
+        """
+        parties_str = "Applicant Tenant : Abayomi Ol, Esther Aw - Respondat Landlord : Dermot K"
+        expected = {
+            "applicant": [{"role": "tenant", "name": "abayomi ol"},
+                          {"role": "tenant", "name": "esther aw"}],
+            "respondent": [{"role": "landlord", "name": "dermot k"}]
+        }
+        result = utils.splitCaseParties("adjudication", parties_str)
+        self.assertEqual(expected, result)
+        
     def test_formatPartyString(self):
         """
         Assert that the formatPartyString method will return an array of 

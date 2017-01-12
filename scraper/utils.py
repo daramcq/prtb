@@ -5,6 +5,8 @@ from tabulate import tabulate
 from cases import constants
 from synonyms import SYNONYMS
 
+class UnrecognisableStringException(Exception):
+    pass
 
 def normaliseDate(d):
     date = datetime.strptime(d, "%d %B, %Y")
@@ -97,15 +99,18 @@ def splitPartiesString(parties_str):
     """
     dash_locations = [i for i, l in enumerate(parties_str)
                       if l == '-']
+
     if len(dash_locations) < 2:
         return parties_str.split('-')
-
+    
     for dash_loc in dash_locations:
         first, second = parties_str[:dash_loc], parties_str[dash_loc+1:]
         if anySynonymMatches(first.lower(), "applicant") \
            and anySynonymMatches(second.lower(), "respondent"):
             return [first, second]
 
+    err_msg = "Unable to split string effectively: {0}".format(parties_str)
+    raise UnrecognisableStringException(err_msg)
 
 def formatPartyString(party_str, business_role=True):
     """

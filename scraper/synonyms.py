@@ -3,6 +3,6 @@ SYNONYMS = {
     "landlord" : ["lanldord", "landlord"],
     "tenant" : ["tenant", "tenants", "tnant"],
     "third party": ["third party"],
-    "respondent" : ["respondent", "respondant"],
+    "respondent" : ["respondent", "respondant", "respondat"],
     "applicant": ["applicant", "appellant"],
 }

@@ -32,7 +32,6 @@ def extractCases(soup, case_type):
     
     headers = [th.text for th in table.findAll('th')]
     headers = utils.normaliseHeaders(headers)
-    
     rows = table.findAll('tr')[1:]
     cases = [extractCaseFromRow(row, headers, case_type)
             for row in rows]
@@ -54,7 +53,6 @@ def failedSearchPage(page):
     return searchEmpty(soup)
 
 def scrapePage(case_type, page):
-
     soup = BeautifulSoup(page, 'html.parser')
     logging.debug("Validating page for scraping")
     if searchEmpty(soup) or not pageHasTable(soup):
