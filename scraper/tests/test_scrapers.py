@@ -43,11 +43,11 @@ class TestScrapers(TestCase):
             u"order_date": u"2016-02-12",
             u"determination_order": u"www.rtb.ie/some/url",
             u"parties" : {
-                u"applicant_parties" : [{
+                u"applicant" : [{
                     u"role": u"tenant",
                     u"name": u"alan o'k"
                 }],
-                u"respondent_parties" : [{
+                u"respondent" : [{
                     u"role": u"landlord", u"name": u"noel mcc"
                 }]
             }
@@ -68,8 +68,8 @@ class TestScrapers(TestCase):
                                            "rent arrears",
                                            "overholding"],
                     "parties": {
-                        "applicant_parties" : [{"name": u"lucy johnston"}],
-                        "respondent_parties": [{"name": u"mary-jane lawrence"}]
+                        "applicant" : [{"name": u"lucy johnston"}],
+                        "respondent": [{"name": u"mary-jane lawrence"}]
                     },
                     "hearing_date": "2014-01-08",
                     "tribunal_report" : "www.rtb.ie/tribunal/report",

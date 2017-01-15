@@ -25,33 +25,46 @@ def scrapePages(case_type, min_year, max_year):
     print("Found {0} cases in total for years {1}-{2}".format(total, min_year, max_year))
     return
 
+def caseExists(case_info):
+    try:
+        print "Checking if case exists"
+        case = Case.objects.get(dr_no=case_info.get('dr_no'),
+                                date=getCaseDate(case_info))
+        print "Case {0} - {1} already exists!".format(case.dr_no, case.date)
+        return True
+    except Case.DoesNotExist:
+        print "Case not found, saving now"
+        return False
+
+def getCaseDate(case_info):
+    return case_info.get('order_date',
+                         case_info.get('hearing_date'))
 
 def saveCase(case_info, case_type):
     """
     Save a case_info dict as a Case, with associated
     Subject and Party keys
     """
-    print case_info
+    if caseExists(case_info):
+        return
+
     case = Case(case_type=case_type,
                 dr_no=case_info.get('dr_no'),
+                date=getCaseDate(case_info),
                 determination_order=case_info.get('determination_order'))
+
     if case_type == 'tribunal':
         case.tr_no = case_info.get('tr_no')
         case.tribunal_report = case_info.get('tribunal_report')
-        case.date=case_info.get('hearing_date')
-    else:
-        case.date= case_info.get('order_date')
+    print "Saving case: {0} | {1}".format(case.dr_no, case.date)
     case.save()
-    print "Saved the case"
     subjects = [Subject.objects.get_or_create(name=subj)[0]
                 for subj in case_info.get('subject_of_dispute')]
-    print "Got the subjects"
     parties = case_info.get("parties")
     respondents = [Party.objects.get_or_create(**resp)[0]
                    for resp in parties.get("respondent")]
     applicants = [Party.objects.get_or_create(**resp)[0]
                    for resp in parties.get("applicant")]
-    print "And all the other shit"
     for resp in respondents:
         case.respondents.add(resp)
 

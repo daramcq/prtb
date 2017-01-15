@@ -97,17 +97,18 @@ def splitPartiesString(parties_str):
     """
     Splits the party_str into an applicant/appellant and a respondent
     """
-    dash_locations = [i for i, l in enumerate(parties_str)
-                      if l == '-']
+    for separator in SYNONYMS.get("separator"):
+        dash_locations = [i for i, l in enumerate(parties_str)
+                          if l == separator]
 
-    if len(dash_locations) < 2:
-        return parties_str.split('-')
+        if len(dash_locations) is 1:
+            return parties_str.split(separator)
     
-    for dash_loc in dash_locations:
-        first, second = parties_str[:dash_loc], parties_str[dash_loc+1:]
-        if anySynonymMatches(first.lower(), "applicant") \
-           and anySynonymMatches(second.lower(), "respondent"):
-            return [first, second]
+        for dash_loc in dash_locations:
+            first, second = parties_str[:dash_loc], parties_str[dash_loc+1:]
+            if anySynonymMatches(first.lower(), "applicant") \
+               and anySynonymMatches(second.lower(), "respondent"):
+                return [first, second]
 
     err_msg = "Unable to split string effectively: {0}".format(parties_str)
     raise UnrecognisableStringException(err_msg)

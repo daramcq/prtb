@@ -5,4 +5,5 @@ SYNONYMS = {
     "third party": ["third party"],
     "respondent" : ["respondent", "respondant", "respondat"],
     "applicant": ["applicant", "appellant"],
+    "separator": ["-", "/"]
 }
