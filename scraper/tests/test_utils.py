@@ -135,6 +135,21 @@ class TestUtils(TestCase):
         result = utils.splitCaseParties("tribunal", parties_str)
         self.assertEqual(expected, result)
 
+    def test_splitPartiesStringWithoutDivider(self):
+        """
+        Ensure splitPartiesString can cope with no divider 
+        being present
+        """
+        parties_str = "Appellant: Denise O'B Respondent: Eugene D, Mary C"
+        expected = {
+            "applicant": [{"name": "denise o'b"}],
+            "respondent": [{"name": "eugene d"},
+                           {"name": "mary c"}]
+        }
+        result = utils.splitCaseParties("tribunal", parties_str)
+        self.assertEqual(expected, result)
+
+
     def test_formatPartyString(self):
         """
         Assert that the formatPartyString method will return an array of 

@@ -110,8 +110,33 @@ def splitPartiesString(parties_str):
                and anySynonymMatches(second.lower(), "respondent"):
                 return [first, second]
 
+    parties = splitPartiesOnSpaces(parties_str)
+    if parties:
+        return parties
+
     err_msg = "Unable to split string effectively: {0}".format(parties_str)
     raise UnrecognisableStringException(err_msg)
+
+def splitPartiesOnSpaces(parties_str):
+    """
+    Splits a case parties_str on spacing, find the locations of
+    the applicant and respondent roles and splitting at the start
+    of the second
+    """
+    def findFirstMatch(s, matching_strs):
+        for m in matching_strs:
+            if m in s.lower():
+                return s.lower().find(m)
+
+    roles = ['applicant', 'respondent']
+    role_locations = [findFirstMatch(parties_str, SYNONYMS.get(r)) for r in roles if anySynonymMatches(parties_str, r)]
+    if role_locations:
+        first = parties_str[:role_locations[1]-1]
+        second = parties_str[role_locations[1]:]
+        return [first, second]
+    else:
+        return None, None
+    
 
 def formatPartyString(party_str, business_role=True):
     """
