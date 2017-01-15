@@ -62,6 +62,16 @@ class TestUtils(TestCase):
         res = utils.splitCaseSubject(s6)
         self.assertEqual(expected, res)
 
+    def splitCaseSubjectOnSemicolon(self):
+        """
+        Ensure that splitCaseSubject can handle a semi-colon
+        being used as a separator
+        """
+        subj_str = "Standard and maintenance of dwelling; Damage in excess of normal wear and tear; Rent arrears; Invalid Notice of termination; Rent more than market rate Rent arrears and overholding; Breach of landlord obligations"
+        expected = ["standard and maintenance of dwelling", "damage in excess of normal wear and tear", "rent arrears", "invalid notice of termination", "rent more than market rate", "breach of landlord obligations"]
+        res = utils.splitCaseSubject(subj_str)
+        self.assertEqual(expected, res)
+
     def test_splitCaseParties(self):
         """
         Test the splitCaseParties method by asserting that a string of parties will
