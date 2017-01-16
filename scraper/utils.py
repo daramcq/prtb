@@ -66,16 +66,19 @@ def splitCaseSubject(subject):
         return "standard and maintenance" in s \
             or "wear and tear" in s
 
-    def parsed_str(s):
+    def clean_str(s):
         return s.lower().strip().strip('.').replace("-", " ")
 
     def lookup_synonyms(s):
         return SYNONYMS.get(s, s) 
-    
+
+    def splitAndParseString(s, divider):
+        return [clean_str(s) for s in subject.split(divider)
+                if len(clean_str(s)) > 0]
     # Need to filter out empty strings
-    case_subjects = [parsed_str(s) for
-                     s in subject.split(',')
-                     if len(parsed_str(s)) > 0]
+    case_subjects = splitAndParseString(subject, ',')
+    if len(case_subjects) == 1:
+        case_subjects = splitAndParseString(subject, ';')
     for i, subj in enumerate(case_subjects):
         if " and " in subj and not red_herring(subj):
             case_subjects.pop(i)
