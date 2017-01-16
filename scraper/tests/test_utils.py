@@ -160,6 +160,19 @@ class TestUtils(TestCase):
         result = utils.splitCaseParties("tribunal", parties_str)
         self.assertEqual(expected, result)
 
+    def test_splitPartiesOnlyOneParty(self):
+        """
+        Ensures that splitPartiesString can cope with only one
+        party being present
+        """
+        parties_str = "Applicant Tenant(s): Tabata A, Caio N"
+        expected = {
+            "applicant": [{"role": "tenant", "name": "tabata a"},
+                          {"role": "tenant", "name": "caio n"}],
+            "respondent": []
+        }
+        result = utils.splitCaseParties('adjudication', parties_str)
+        self.assertEqual(expected, result)
 
     def test_formatPartyString(self):
         """
