@@ -1,5 +1,6 @@
 import logging
 import os
+import sys
 
 from django.db import IntegrityError
 
@@ -87,23 +88,30 @@ def scrapePage(case_type, path):
 
 
 def run():
-    case_types = [tp[1] for tp in case_constants.CASE_TYPES]
-    # For each case type
-    index = {}
-    for case_type in case_types:
-        index[case_type] = {}
-        case_dir = constants.BASE_FILE_DIR + "/{0}".format(case_type)
-        # For each year
-        for year in os.listdir(case_dir):
-            index[case_type][int(year)] = 0
-            year_path = case_dir + "/{0}".format(year)
-            for page in os.listdir(year_path):
-                page_path = year_path+"/{0}".format(page)
-                cases = scrapePage(case_type, page_path)
-                index[case_type][int(year)] += len(cases)
-                print "{0} | {1} - {2} | {3} cases".format(case_type, year,
-                                                           page, len(cases))
-                for c in cases:
-                    saveCase(c, case_type)
+    try:
+        case_types = [tp[1] for tp in case_constants.CASE_TYPES]
 
-    print index
+        for case_type in case_types:
+            case_dir = constants.BASE_FILE_DIR + "/{0}".format(case_type)
+            # For each year
+            for year in os.listdir(case_dir):
+                year_path = case_dir + "/{0}".format(year)
+                for page in os.listdir(year_path):
+                    page_path = year_path+"/{0}".format(page)
+                    print "Scraping page: {0}".format(page_path)
+                    cases = scrapePage(case_type, page_path)
+                    print "{0} | {1} - {2} | {3} cases".format(case_type, year,
+                                                               page, len(cases))
+                    for c in cases:
+                        saveCase(c, case_type)
+
+    except Exception as e:
+        print "Failed with exception: {0}".format(e)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        print(exc_type, fname, exc_tb.tb_lineno)
+        cases_saved = Case.objects.count()
+        total = 5066
+        percentage = 100 * round((float(cases_saved)/total), 4)
+        print "{0} cases saved.".format(total)
+        print "That's {0}% of the total".format(percentage)

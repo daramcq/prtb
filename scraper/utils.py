@@ -172,7 +172,10 @@ def splitCaseParties(case_type, parties_str):
     """
     desired_fields = ['applicant', 'respondent']
     role_needed = case_type == 'adjudication'
-    parties = splitPartiesString(parties_str)    
+    parties = splitPartiesString(parties_str)
+    if not parties[0]:
+        print parties_str
+        raise Exception("Parties fucked")
     role_matches = {}
     for field in desired_fields:
         for party in parties:

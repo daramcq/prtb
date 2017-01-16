@@ -3,7 +3,7 @@ SYNONYMS = {
     "landlord" : ["lanldord", "landlord"],
     "tenant" : ["tenant", "tenants", "tnant"],
     "third party": ["third party"],
-    "respondent" : ["respondent", "respondant", "respondat"],
-    "applicant": ["applicant", "appellant"],
+    "respondent" : ["respondent", "respondant", "respondat", 'repsondent'],
+    "applicant": ["applicant", "appellant", 'applciant'],
     "separator": ["-", "/"]
 }
