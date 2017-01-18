@@ -100,6 +100,14 @@ def splitPartiesString(parties_str):
     """
     Splits the party_str into an applicant/appellant and a respondent
     """
+    def bothRolesMatched(first, second):
+        return anySynonymMatches(first.lower(), "applicant") \
+               and anySynonymMatches(second.lower(), "respondent")
+
+    def anyRoleMatched(parties_str):
+        return anySynonymMatches(parties_str.lower(), "applicant") \
+               or anySynonymMatches(parties_str.lower(), "respondent")
+    
     for separator in SYNONYMS.get("separator"):
         dash_locations = [i for i, l in enumerate(parties_str)
                           if l == separator]
@@ -109,13 +117,17 @@ def splitPartiesString(parties_str):
     
         for dash_loc in dash_locations:
             first, second = parties_str[:dash_loc], parties_str[dash_loc+1:]
-            if anySynonymMatches(first.lower(), "applicant") \
-               and anySynonymMatches(second.lower(), "respondent"):
+            if bothRolesMatched(first, second):
                 return [first, second]
 
-    parties = splitPartiesOnSpaces(parties_str)
-    if parties:
+    try:
+        parties = splitPartiesOnSpaces(parties_str)
         return parties
+    except UnrecognisableStringException as e:
+        pass
+
+    if anyRoleMatched(parties_str):
+        return [parties_str]
 
     err_msg = "Unable to split string effectively: {0}".format(parties_str)
     raise UnrecognisableStringException(err_msg)
@@ -133,12 +145,13 @@ def splitPartiesOnSpaces(parties_str):
 
     roles = ['applicant', 'respondent']
     role_locations = [findFirstMatch(parties_str, SYNONYMS.get(r)) for r in roles if anySynonymMatches(parties_str, r)]
-    if role_locations:
+    if role_locations and len(role_locations)>1:
+        print role_locations
         first = parties_str[:role_locations[1]-1]
         second = parties_str[role_locations[1]:]
         return [first, second]
     else:
-        return None, None
+        raise UnrecognisableStringException("Unable to split into parties on spaces")
     
 
 def formatPartyString(party_str, business_role=True):
@@ -173,7 +186,7 @@ def splitCaseParties(case_type, parties_str):
     desired_fields = ['applicant', 'respondent']
     role_needed = case_type == 'adjudication'
     parties = splitPartiesString(parties_str)
-    if not parties[0]:
+    if not parties:
         print parties_str
         raise Exception("Parties fucked")
     role_matches = {}
@@ -187,12 +200,17 @@ def splitCaseParties(case_type, parties_str):
                 desired_fields.remove(field)
                 parties.remove(party)
 
+
     # If we have an unfilled role and an unattributed party,
     # match the remaining
-    if parties and desired_fields and len(parties) == 1 and len(desired_fields) == 1:
+    if len(parties) == 1 and len(desired_fields) == 1:
         role_matches[desired_fields[0]] = formatPartyString(parties[0],
                                                             business_role=role_needed)
-                
+    # If we have an unfilled role but no parties remaining
+    # return the unfilled role as an empty list 
+    if not parties and len(desired_fields) == 1:
+        role_matches[desired_fields[0]] = []
+
     return role_matches    
 
 def produceQuickSubjectBreakdown(cases):
