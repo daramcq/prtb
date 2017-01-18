@@ -46,7 +46,11 @@ def normaliseCaseFields(case, case_type):
                 return f[1](v)
 
     field_normalisers = partial(apply_if_matches, normalise_fns)
-    normalised_vals = map(field_normalisers, case.items())
+    try:
+        normalised_vals = map(field_normalisers, case.items())
+    except Exception as e:
+        print "Unable to format case: {0}".format(case)
+        raise e
     case = dict(zip(case.keys(), normalised_vals))
     return case
 
@@ -129,6 +133,7 @@ def splitPartiesString(parties_str):
     if anyRoleMatched(parties_str):
         return [parties_str]
 
+
     err_msg = "Unable to split string effectively: {0}".format(parties_str)
     raise UnrecognisableStringException(err_msg)
 
@@ -185,11 +190,20 @@ def splitCaseParties(case_type, parties_str):
     """
     desired_fields = ['applicant', 'respondent']
     role_needed = case_type == 'adjudication'
+
+    if not parties_str:
+        return {
+            'applicant': [],
+            'respondent': []
+        }
+
     parties = splitPartiesString(parties_str)
+        
     if not parties:
-        print parties_str
-        raise Exception("Parties fucked")
+        raise Exception("Parties fucked: {0}".format(parties_str))
+
     role_matches = {}
+
     for field in desired_fields:
         for party in parties:
             if anySynonymMatches(party, field):

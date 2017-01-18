@@ -113,5 +113,7 @@ def run():
         cases_saved = Case.objects.count()
         total = 5066
         percentage = 100 * round((float(cases_saved)/total), 4)
-        print "{0} cases saved.".format(total)
-        print "That's {0}% of the total".format(percentage)
+        print "\n================================================\n"
+        print "{0} cases saved.".format(cases_saved)
+        print "That's {0}% of the total - {1}".format(percentage, total)
+        print "\n================================================\n"
