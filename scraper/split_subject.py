@@ -37,7 +37,7 @@ def splitCaseSubject(subject_str):
 
     # Now split on and/& if present
     for i, subj in enumerate(case_subjects):
-        for conj in (" and ", " & "):
+        for conj in (" and ", " & ", " amd "):
             if conj in subj and not red_herring(subj, conj):
                 case_subjects.pop(i)
                 case_subjects += [s.strip() for s

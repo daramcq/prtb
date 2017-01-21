@@ -1,6 +1,6 @@
-(ii) standard and maintenance of dwelling                                                      
-(iii) rent more than market rate                                                               
-(iv) damage in excess of normal wear and tear                                                  
+(ii) standard and maintenance of dwelling
+(iii) rent more than market rate
+(iv) damage in excess of normal wear and tear
 (v) rent arrears                                                                               
 a breach of tenant obligations                                                                 
 alleged unlawful termination                                                                   
@@ -20,11 +20,8 @@ apt 4 138 sandford road
 arears                                                                                         
 arrears                                                                                        
 arrears of rent                                                                                
-beach of landlord obligations                                                                  
-beach of tenant obligations                                                                    
-brach of tenant obligations                                                                    
+beach of landlord obligations
 breaach of landlord obligations                                                                
-breach o tenant obligations                                                                    
 breach of a fixed term lease                                                                   
 breach of fixed term lease                                                                     
 breach of fixed term lease and standard and maintenance of dwelling                            
@@ -45,33 +42,34 @@ breach of landlord’s obligations
 breach of landlord’s obligations and standard and maintenance of the dwelling                  
 breach of landlord’s obligations in the standard and maintenance of dwelling                   
 breach of landlord’s obligations regarding the standard and maintenance of the dwelling        
-breach of obligations                                                                          
-breach of tenan obligations                                                                    
-breach of tenant oblgations                                                                    
-breach of tenant obligaions                                                                    
-breach of tenant obligation                                                                    
-breach of tenant obligations                                                                   
+breach of obligations
+beach of tenant obligations                                                                    
+brach of tenant obligations                                                                    
+breach o tenant obligations                          
+breach of tenan obligations                          
+breach of tenant oblgations
+breach of tenant obligaions                          
+breach of tenant obligation                          
+breach of tenant obligations
 breach of tenant obligations and damage in excess of normal wear and tear                      
-breach of tenant obligations and standard and maintenance of dwelling                          
-breach of tenant obligattions                                                                  
-breach of tenants                                                                              
-breach of tenants obligations                                                                  
-breach of tenants’ obligations                                                                 
-breach of tenant’s obligations                                                                 
+breach of tenant obligations and standard and maintenance of dwelling 
+breach of tenant obligattions                          
+breach of tenants
+breach of tenants obligations
+breach of tenants’ obligations         
+breach of tenant’s obligations
 breach of tennat obligtaions                                                                   
-breach of the landlord’s obligations                                                           
-breach of tnant obligations                                                                    
-breache of landlord obligations                                                                
-brrach of tenant obligations                                                                   
-damage beyond reasonable wear and tear to the dwelling                                         
-damage in exces of normal wear and tear                                                        
-damage in excess                                                                               
-damage in excess of nomal wear and tear                                                        
-damage in excess of normal wear                                                                
+breach of the landlord’s obligations                          
+breach of tnant obligations
+breache of landlord obligations                          
+brrach of tenant obligations
+damage beyond reasonable wear and tear to the dwelling
+damage in exces of normal wear and tear
+damage in excess
+damage in excess of nomal wear and tear          
+damage in excess of normal wear
 damage in excess of normal wear and tear                                                       
-damage in excess of normal wear and tear and breach of landlord obligations                    
-damage in excess of normal wear and tear and breach of tenant obligations                      
-damage in excess of normal wear and tear and rent arrears                                      
+                          
 damage to property within the rented accommodation                                             
 damages in excess of normal wear and tear                                                      
 deosit retention                                                                               
@@ -139,19 +137,19 @@ rent arrears & breach of tenant obligations
 rent arrears & overholding                                                                     
 rent arrears amd overholding                                                                   
 rent arrears and breach of tenant obligations                                                  
-rent arrears and damages in excess of normal wear and tear                                     
-rent arrears and overholding                                                                   
+rent arrears and damages in excess of normal wear and tear
+rent arrears and overholding
 rent arrears and standard and maintenance of the dwelling                                      
-rent arreas                                                                                    
-rent arrers                                                                                    
+rent arreas                                     
+rent arrers               
 rent arrrears                                                                                  
 rent more than market rate                                                                     
 rent more than market rate (not applicable to approved housing body tenancies)                 
 sandard                                                                                        
 standard                                                                                       
-standard and maintenance of                                                                    
-standard and maintenance of dweling                                                            
-standard and maintenance of dwelling                                                           
+standard and maintenance of
+standard and maintenance of dweling
+standard and maintenance of dwelling                          
 standard and maintenance of dwelling and breach of landlord obligations                        
 standard and maintenance of dwelling and breach of tenant obligations                          
 standard and maintenance of dwelling and damage in excess of normal wear and tear              
@@ -171,7 +169,7 @@ standars
 tenant : received on 19/03/2014. the grounds of the appeal: invalid notice of termination      
 the jurisdiction to commence dispute resolution by adjudication                                
 therefore an unlawful termination of tenancy                                                   
-unlawful temination of tenancy                                                                 
+unlawful temination of tenancy
 unlawful termaintion of tenancy ( illegal eviction)                                            
 unlawful termiation of tenancy (illegal eviction)                                              
 unlawful termination of tenancy                                                                
@@ -184,10 +182,10 @@ unlawful termination of tenancy (illlegal eviction)
 unlawful termination of the tenancy (illegal eviction)                                         
 utilities by tenant                                                                            
 validity of a notice of termination                                                            
-validity of notice of termination                                                              
-validity of the notice of termination                                                          
-validity of the rent increase                                                                  
+validity of notice of termination
+validity of the notice of termination
+validity of the rent increase                                                          
 validty of the notice of termination                                                           
-’standard and maintenance of dwelling                                                          
-“other                                                                                         
+’standard and maintenance of dwelling                    
+“other                          
 “other”
