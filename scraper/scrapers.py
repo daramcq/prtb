@@ -1,7 +1,8 @@
 import logging
 import pdb
 from bs4 import BeautifulSoup
-import utils
+import normalisers
+
 
 def searchEmpty(soup):
     """
@@ -21,7 +22,7 @@ def extractCaseFromRow(row, headers, case_type):
     logging.debug("Extracting case from row")
     cells = [td.text for td in row.findAll('td')]
     case_info = dict(zip(headers, cells))
-    case = utils.normaliseCaseFields(case_info, case_type)
+    case = normalisers.normaliseCaseFields(case_info, case_type)
     return case
 
 
@@ -31,7 +32,7 @@ def extractCases(soup, case_type):
     table = soup.find('table', {'class' : 'list-orders'})
     
     headers = [th.text for th in table.findAll('th')]
-    headers = utils.normaliseHeaders(headers)
+    headers = normalisers.normaliseHeaders(headers)
     rows = table.findAll('tr')[1:]
     cases = [extractCaseFromRow(row, headers, case_type)
             for row in rows]

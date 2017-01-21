@@ -1,77 +1,12 @@
 from unittest import TestCase
-from scraper import utils
 from bs4 import BeautifulSoup
 
-class TestUtils(TestCase):
+from scraper import split_parties
 
-    def test_normaliseDate(self):
-        s = "12 February, 2016"
-        expected = "2016-02-12"
-        self.assertEqual(expected, utils.normaliseDate(s))
-
-
-    def test_normaliseHeaders(self):
-        headers = ["DR No.", "Subject of Dispute",
-                   "Order Date", "Determination Order"]
-        expected = ["dr_no", "subject_of_dispute",
-                    "order_date", "determination_order"]
-
-        self.assertEqual(expected, utils.normaliseHeaders(headers))
-
-
-    def test_splitCaseSubject(self):
-        """
-        Tests the split_case_subject method
-        """
-        
-        s1 = "Deposit retention, Breach of landlord obligations"
-        expected = ["deposit retention", "breach of landlord obligations"]
-        self.assertEqual(expected, utils.splitCaseSubject(s1))
-
-        s2 = "Deposit retention, Invalid Notice of termination, Standard and maintenance of dwelling, Unlawful termination of tenancy (Illegal eviction)"
-        expected = ["deposit retention",
-                    "invalid notice of termination",
-                    "standard and maintenance of dwelling",
-                    "unlawful termination of tenancy"]
-        res = utils.splitCaseSubject(s2)
-        self.assertTrue(all([exp in res for exp in expected]))
-
-        s3 = "Deposit Retention and Breach of Landlord Obligations, anti-social behaviour"
-        expected = ["deposit retention",
-                    "breach of landlord obligations",
-                    "anti social behaviour"]
-        res = utils.splitCaseSubject(s3)
-        self.assertTrue(all([exp in res for exp in expected]))
-
-        s4 = "Rent arrears, Standard and maintenance of Dwelling, Breach of tenant obligations"
-        expected = ["rent arrears",
-                    "standard and maintenance of dwelling",
-                    "breach of tenant obligations"]
-        res = utils.splitCaseSubject(s4)
-        self.assertTrue(all([exp in res for exp in expected]))
-
-        s5 = "Unlawful termination of tenancy (Illegal eviction), Deposit retention, Rent more than market rate"
-        expected = ["unlawful termination of tenancy",
-                    "deposit retention",
-                    "rent more than market rate"]
-        res = utils.splitCaseSubject(s5)
-        self.assertTrue(all([exp in res for exp in expected]))
-
-        s6 = "Unlawful termination of tenancy (Illegal eviction)"
-        expected = ["unlawful termination of tenancy"]
-        res = utils.splitCaseSubject(s6)
-        self.assertEqual(expected, res)
-
-    def test_splitCaseSubjectOnSemicolon(self):
-        """
-        Ensure that splitCaseSubject can handle a semi-colon
-        being used as a separator
-        """
-        subj_str = "Standard and maintenance of dwelling; Damage in excess of normal wear and tear; Rent arrears; Invalid Notice of termination; Rent more than market rate; Breach of landlord obligations"
-        expected = ["standard and maintenance of dwelling", "damage in excess of normal wear and tear", "rent arrears", "invalid notice of termination", "rent more than market rate", "breach of landlord obligations"]
-        res = utils.splitCaseSubject(subj_str)
-        print res
-        self.assertItemsEqual(expected, res)
+class TestSplitParties(TestCase):
+    """
+    Test the split_parties module
+    """
 
     def test_splitCaseParties(self):
         """
@@ -85,14 +20,14 @@ class TestUtils(TestCase):
         expected = { "applicant" : [{"role": "landlord", "name": "mark k"}],
                      "respondent" : [{"role": "tenant", "name": "amanda l"},
                                      {"role": "tenant", "name": "lawrence g"}]}
-        result = utils.splitCaseParties("adjudication", parties_str)
+        result = split_parties.splitCaseParties("adjudication", parties_str)
         self.assertEqual(expected, result)
 
         parties_str = "Applicant Tenant: Alan O'K- Respondent Landlord: Noel McC"
         expected = { "applicant" : [{"role": "tenant", "name": "alan o'k"}],
                      "respondent" : [{"role": "landlord", "name": "noel mcc"}]}
 
-        result = utils.splitCaseParties("adjudication", parties_str)
+        result = split_parties.splitCaseParties("adjudication", parties_str)
         self.assertEqual(expected, result)
 
         parties_str = "Applicant Tenant(s): Ahmed G, Fadumo I - Respondant Landlord: Audrey K"
@@ -100,7 +35,7 @@ class TestUtils(TestCase):
                                             {"role": "tenant", "name": "fadumo i"}],
                      "respondent" : [{"role": "landlord", "name": "audrey k"}]}
 
-        result = utils.splitCaseParties("adjudication", parties_str)
+        result = split_parties.splitCaseParties("adjudication", parties_str)
         self.assertEqual(expected, result)
 
         parties_str = "Applicant Landlord(s): Theresa L, Francis W - Respondant Tenant: Denise n"
@@ -109,7 +44,7 @@ class TestUtils(TestCase):
                                    {"role": "landlord", "name": "francis w"}],
             "respondent" : [{"role": "tenant", "name": "denise n"}]
         }
-        result = utils.splitCaseParties("adjudication", parties_str)
+        result = split_parties.splitCaseParties("adjudication", parties_str)
         self.assertEqual(expected, result)
 
         parties_str = "Applicant landlord: Geraldine R - Andrey T"
@@ -117,7 +52,7 @@ class TestUtils(TestCase):
             "applicant" : [{"role": "landlord", "name": "geraldine r"}],
             "respondent" : [{"role": "unknown", "name": "andrey t"}]
         }
-        result = utils.splitCaseParties("adjudication", parties_str)
+        result = split_parties.splitCaseParties("adjudication", parties_str)
         self.assertEqual(expected, result)
 
     def test_splitPartiesStringPoorSpelling(self):
@@ -130,7 +65,7 @@ class TestUtils(TestCase):
                           {"role": "tenant", "name": "esther aw"}],
             "respondent": [{"role": "landlord", "name": "dermot k"}]
         }
-        result = utils.splitCaseParties("adjudication", parties_str)
+        result = split_parties.splitCaseParties("adjudication", parties_str)
         self.assertEqual(expected, result)
         
     def test_splitPartiesStringWithSlash(self):
@@ -143,7 +78,7 @@ class TestUtils(TestCase):
             "applicant": [{"name": "jurij m"}],
             "respondent": [{"name": "gerry w"}]
         }
-        result = utils.splitCaseParties("tribunal", parties_str)
+        result = split_parties.splitCaseParties("tribunal", parties_str)
         self.assertEqual(expected, result)
 
     def test_splitPartiesStringWithoutDivider(self):
@@ -157,7 +92,7 @@ class TestUtils(TestCase):
             "respondent": [{"name": "eugene d"},
                            {"name": "mary c"}]
         }
-        result = utils.splitCaseParties("tribunal", parties_str)
+        result = split_parties.splitCaseParties("tribunal", parties_str)
         self.assertEqual(expected, result)
 
     def test_splitPartiesOnlyOneParty(self):
@@ -171,7 +106,7 @@ class TestUtils(TestCase):
                           {"role": "tenant", "name": "caio n"}],
             "respondent": []
         }
-        result = utils.splitCaseParties('adjudication', parties_str)
+        result = split_parties.splitCaseParties('adjudication', parties_str)
         self.assertEqual(expected, result)
 
     def test_formatPartyString(self):
@@ -181,7 +116,7 @@ class TestUtils(TestCase):
         """
         party_str = "Applicant landlord: Geraldine R"
         expected = [{"name": "geraldine r", "role": "landlord"}]
-        self.assertEqual(expected, utils.formatPartyString(party_str, True))
+        self.assertEqual(expected, split_parties.formatPartyString(party_str, True))
 
     def test_splitPartiesString(self):
         """
@@ -191,16 +126,4 @@ class TestUtils(TestCase):
         """
         s = "Appellant: Lucy Johnston - Respondent: Mary-Jane Lawrence"
         expected = ["Appellant: Lucy Johnston "," Respondent: Mary-Jane Lawrence"]
-        self.assertEqual(expected, utils.splitPartiesString(s))
-
-    def test_normaliseOrderNums(self):
-        data = {
-            "tr_no": "TTTTTT  ",
-            "dr_no": "  GGGGGG"
-        }
-        exp = {
-            "tr_no": "TTTTTT",
-            "dr_no": "GGGGGG"
-        }
-        
-        self.assertEqual(exp, utils.normaliseCaseFields(data, "adjudication"))
+        self.assertEqual(expected, split_parties.splitPartiesString(s))
