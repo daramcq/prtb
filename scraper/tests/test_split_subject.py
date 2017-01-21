@@ -20,33 +20,33 @@ class TestSplitSubject(TestCase):
         expected = ["deposit retention",
                     "invalid notice of termination",
                     "standard and maintenance of dwelling",
-                    "unlawful termination of tenancy"]
-        res = split_subject.splitCaseSubject(s2)
-        self.assertTrue(all([exp in res for exp in expected]))
+                    "illegal eviction"]
+        result = split_subject.splitCaseSubject(s2)
+        self.assertItemsEqual(expected, result)
 
         s3 = "Deposit Retention and Breach of Landlord Obligations, anti-social behaviour"
         expected = ["deposit retention",
                     "breach of landlord obligations",
-                    "anti social behaviour"]
-        res = split_subject.splitCaseSubject(s3)
-        self.assertTrue(all([exp in res for exp in expected]))
+                    "anti-social behaviour"]
+        result = split_subject.splitCaseSubject(s3)
+        self.assertItemsEqual(expected, result)
 
         s4 = "Rent arrears, Standard and maintenance of Dwelling, Breach of tenant obligations"
         expected = ["rent arrears",
                     "standard and maintenance of dwelling",
                     "breach of tenant obligations"]
-        res = split_subject.splitCaseSubject(s4)
-        self.assertTrue(all([exp in res for exp in expected]))
+        result = split_subject.splitCaseSubject(s4)
+        self.assertItemsEqual(expected, result)
 
         s5 = "Unlawful termination of tenancy (Illegal eviction), Deposit retention, Rent more than market rate"
-        expected = ["unlawful termination of tenancy",
+        expected = ["illegal eviction",
                     "deposit retention",
                     "rent more than market rate"]
-        res = split_subject.splitCaseSubject(s5)
-        self.assertTrue(all([exp in res for exp in expected]))
+        result = split_subject.splitCaseSubject(s5)
+        self.assertItemsEqual(expected, result)
 
         s6 = "Unlawful termination of tenancy (Illegal eviction)"
-        expected = ["unlawful termination of tenancy"]
+        expected = ["illegal eviction"]
         res = split_subject.splitCaseSubject(s6)
         self.assertEqual(expected, res)
 
@@ -60,3 +60,12 @@ class TestSplitSubject(TestCase):
         res = split_subject.splitCaseSubject(subj_str)
         print res
         self.assertItemsEqual(expected, res)
+
+    def test_lookupSynonym(self):
+        """
+        Ensure that lookupSynonym will return the canonical form of 
+        a subject string
+        """
+        subj = "anti-socail behaviour"
+        res = split_subject.lookupSynonyms(subj)
+        self.assertEqual("anti-social behaviour", res)
