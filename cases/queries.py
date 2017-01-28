@@ -48,6 +48,11 @@ SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_o
 
 GET top subjects of dispute for cases in 2016 where applicant is a tenant
 """
-SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.role='tenant' AND C.date BETWEEN '2016-01-01' AND '2016-12-31') GROUP BY CS.subject_id ORDER BY count DESC LIMIT 10;
+SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.role='tenant' AND C.date BETWEEN '2016-01-01' AND '2016-12-31') GROUP BY CS.subject_id ORDER BY S.name DESC LIMIT 20;
 """
 
+
+Get subjects of dispute for REIT
+"""
+SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.name LIKE '%REIT%') GROUP BY CS.subject_id ORDER BY count DESC;
+"""

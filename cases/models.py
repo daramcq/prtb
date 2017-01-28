@@ -13,7 +13,6 @@ class Party(models.Model):
     role = models.CharField(max_length=20,
                             choices=constants.BUSINESS_ROLES,
                             null=True)
-
     class Meta:
         unique_together = ["name", "role"]
 
@@ -24,7 +23,7 @@ class Subject(models.Model):
     """
     Subject model, the subject of a dispute
     """
-    name = models.CharField(max_length=100,
+    name = models.CharField(max_length=150,
                             unique=True)
 
     def __str__(self):
