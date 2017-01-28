@@ -56,3 +56,14 @@ Get subjects of dispute for REIT
 """
 SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.name LIKE '%REIT%') GROUP BY CS.subject_id ORDER BY count DESC;
 """
+
+Get number of cases by month
+"""
+SELECT extract(year_month FROM date) AS yearmonth, count(dr_no) as count 
+FROM cases_case GROUP BY yearmonth ORDER BY yearmonth
+"""
+
+Get number of cases by subject by month
+"""
+SELECT extract(year_month FROM date) AS yearmonth, S.name, count(*) as count FROM cases_case C JOIN cases_case_subjects_of_dispute CS ON C.id=CS.case_id JOIN cases_subject S ON CS.subject_id=S.id GROUP BY yearmonth, S.name ORDER BY yearmonth, count desc;
+"""
