@@ -67,3 +67,9 @@ Get number of cases by subject by month
 """
 SELECT extract(year_month FROM date) AS yearmonth, S.name, count(*) as count FROM cases_case C JOIN cases_case_subjects_of_dispute CS ON C.id=CS.case_id JOIN cases_subject S ON CS.subject_id=S.id GROUP BY yearmonth, S.name ORDER BY yearmonth, count desc;
 """
+
+
+Get number of cases by month where applicant is tenant
+"""
+SELECT extract(year_month FROM date) AS yearmonth, count(*) as count FROM cases_case C JOIN cases_case_subjects_of_dispute CS ON C.id=CS.case_id JOIN cases_subject S ON CS.subject_id=S.id JOIN cases_case_applicants A ON CS.case_id=A.case_id JOIN cases_party P ON A.party_id=P.id WHERE P.role='tenant' GROUP BY yearmonth ORDER BY yearmonth, count desc;
+"""
