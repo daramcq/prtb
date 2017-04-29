@@ -8,7 +8,6 @@ from cases.models import Case, Subject, Party
 import cases.constants as case_constants
 
 import scrapers as scr
-import utils
 import constants
 
 def scrapePages(case_type, min_year, max_year):

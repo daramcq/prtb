@@ -29,47 +29,47 @@ top_10_dispute_subjects = """ SELECT subject.name, cnt.subject_id, count(*) AS c
                               GROUP BY cnt.subject_id ORDER BY COUNT DESC LIMIT 10;
                           """
 
-Get cases where applicant is a landlord:
+#Get cases where applicant is a landlord:
 """
 SELECT C.id, A.case_id, P.name, P.role FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.role='landlord' limit 5;
 
 """
-GET TOP subjects of dispute for cases where the applicant is a landlord
+#GET TOP subjects of dispute for cases where the applicant is a landlord
 """
 SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.role='landlord') GROUP BY CS.subject_id ORDER BY count DESC LIMIT 10;
 """
 
 
-GET TOP subjects of dispute for cases where the applicant is a tenant
+#GET TOP subjects of dispute for cases where the applicant is a tenant
 """
 SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.role='tenant') GROUP BY CS.subject_id ORDER BY count DESC LIMIT 10;
 """
 
 
-GET top subjects of dispute for cases in 2016 where applicant is a tenant
+#GET top subjects of dispute for cases in 2016 where applicant is a tenant
 """
 SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.role='tenant' AND C.date BETWEEN '2016-01-01' AND '2016-12-31') GROUP BY CS.subject_id ORDER BY S.name DESC LIMIT 20;
 """
 
 
-Get subjects of dispute for REIT
+#Get subjects of dispute for REIT
 """
 SELECT S.name, count(*) AS count FROM cases_subject S JOIN cases_case_subjects_of_dispute CS ON S.id=CS.subject_id WHERE CS.case_id IN (SELECT C.id FROM cases_case C JOIN cases_case_applicants A ON C.id = A.case_id JOIN cases_party P ON A.party_id = P.id WHERE P.name LIKE '%REIT%') GROUP BY CS.subject_id ORDER BY count DESC;
 """
 
-Get number of cases by month
+#Get number of cases by month
 """
 SELECT extract(year_month FROM date) AS yearmonth, count(dr_no) as count 
 FROM cases_case GROUP BY yearmonth ORDER BY yearmonth
 """
 
-Get number of cases by subject by month
+#Get number of cases by subject by month
 """
 SELECT extract(year_month FROM date) AS yearmonth, S.name, count(*) as count FROM cases_case C JOIN cases_case_subjects_of_dispute CS ON C.id=CS.case_id JOIN cases_subject S ON CS.subject_id=S.id GROUP BY yearmonth, S.name ORDER BY yearmonth, count desc;
 """
 
 
-Get number of cases by month where applicant is tenant
+#Get number of cases by month where applicant is tenant
 """
 SELECT extract(year_month FROM date) AS yearmonth, count(*) as count FROM cases_case C JOIN cases_case_subjects_of_dispute CS ON C.id=CS.case_id JOIN cases_subject S ON CS.subject_id=S.id JOIN cases_case_applicants A ON CS.case_id=A.case_id JOIN cases_party P ON A.party_id=P.id WHERE P.role='tenant' GROUP BY yearmonth ORDER BY yearmonth, count desc;
 """
