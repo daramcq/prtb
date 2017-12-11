@@ -25,6 +25,7 @@ def scrapePages(case_type, min_year, max_year):
     print("Found {0} cases in total for years {1}-{2}".format(total, min_year, max_year))
     return
 
+
 def caseExists(case_info):
     try:
         print "Checking if case exists"
@@ -36,9 +37,11 @@ def caseExists(case_info):
         print "Case not found, saving now"
         return False
 
+
 def getCaseDate(case_info):
     return case_info.get('order_date',
                          case_info.get('hearing_date'))
+
 
 def saveCase(case_info, case_type):
     """

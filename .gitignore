@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 # Emacs temp files
 *~
+*#
 # Local storage
 scraper/saved_pages/
 
